@@ -40,7 +40,7 @@ class ImagenetDataset(Dataset):
         self.img_paths = []
         self.labels = []
 
-        with open(self.data_root) as f:
+        with open(os.path.join(self.data_root, 'synsets.txt')) as f:
             lines = f.readlines()[:num_classes]
             for i, line in enumerate(lines):
                 synset = line.split()[0]
