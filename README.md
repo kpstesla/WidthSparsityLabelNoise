@@ -5,7 +5,7 @@ A framework for exploring the robustness to label noise of models with varied wi
 - CIFAR10
 - CIFAR100
 - MiniWebvision
-- Clothing1M
+- Clothing1M (TODO)
 
 ## Supported Models
 - CIFAR ReNets:

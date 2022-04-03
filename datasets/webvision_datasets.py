@@ -17,9 +17,10 @@ class ImagenetDataset(Dataset):
         Imagenet dataset.  Root dir must be organized as
 
         root/
-         - synsets.txt
-         - train/
-         - val/
+         - imagenet/
+          - synsets.txt
+          - train/
+          - val/
 
         where train and val contain folders corresponding to each synset in synsets with each folder containing the
         respective datapoints.
@@ -31,7 +32,7 @@ class ImagenetDataset(Dataset):
         :param target_transform: function to apply to each y.
         """
 
-        self.data_root = data_root
+        self.data_root = os.path.join(data_root, 'imagenet')
         self.img_folder = os.path.join(data_root, 'train/' if train else 'val/')
         self.num_classes = num_classes
         self.train = train
@@ -72,11 +73,12 @@ class WebvisionDataset(Dataset):
         Webvision Dataset.  Root dir must be organized as
 
         root/
-         - info/
-          - val_filelist.txt
-          - train_filelist_google.txt
-          - train_filelist_flickr.txt
-         - val_images_256/
+         - webvision
+          - info/
+           - val_filelist.txt
+           - train_filelist_google.txt
+           - train_filelist_flickr.txt
+           - val_images_256/
          - google/
          - flickr/
 
@@ -87,7 +89,7 @@ class WebvisionDataset(Dataset):
         :param transform: transform to apply to images
         :param target_transform: transform to apply to labels
         """
-        self.data_root = data_root
+        self.data_root = os.path.join(data_root, 'imagenet')
         self.num_classes = num_classes
         self.transform = transform
         self.target_transform = target_transform
@@ -130,3 +132,4 @@ class WebvisionDataset(Dataset):
             label = self.target_transform(label)
 
         return img, label
+
