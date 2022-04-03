@@ -5,6 +5,7 @@ import torchvision.transforms as transforms
 from torchvision.datasets import CIFAR10, CIFAR100
 from datasets import MislabelledDataset, WebvisionDataset, ImagenetDataset
 import torch
+import torch.nn as nn
 
 DEFAULT_CONFIG = "exps/template.yaml"
 
@@ -119,3 +120,30 @@ def save_model(path, model, num_classes, args):
         "width": args.width
     }
     torch.save(model_dict, path)
+
+
+class CSEWrapper(torch.nn.Module):
+    def __init__(self, **kwargs):
+        """
+        CSE wrapper for elr compatibility.
+
+        :param kwargs: kwargs to be passed to torch.nn.CrossEntropyLoss
+        """
+        self.loss = torch.nn.CrossEntropyLoss(**kwargs)
+
+    def forward(self, outputs, labels, indices):
+        return self.loss(outputs, labels)
+
+
+def get_prunable_params(model):
+    """
+    returns a list of all of the conv linear layers along with their weights.
+
+    :param model: the model to get the prunable parameters of.
+    :return: a list of tuples of the form [(module, 'weight'), ...]
+    """
+    prunable = []
+    for n, m in model.named_modules():
+        if isinstance(m, nn.Conv2d) or isinstance(m, nn.Linear):
+            prunable.append((m, 'weight'))
+    return prunable
