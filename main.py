@@ -4,7 +4,7 @@ Author: Kyle Whitecross
 Description: Main training script for various models, datasets, and configurations.
 '''
 
-from utils import parse_args_with_config, load_datasets, get_prunable_params, save_model
+from utils import parse_args_with_config, load_datasets, get_prunable_params, save_model, CSEWrapper
 from robust import ELRLoss
 from train import train, train_mixup, validate
 from torch.utils.tensorboard import SummaryWriter
@@ -96,7 +96,7 @@ def main(args):
     save_model(os.path.join(save_path, 'initial_model.pt'), model, num_classes, args)
 
     # set up loss functions
-    val_criterion = nn.CrossEntropyLoss()
+    val_criterion = CSEWrapper()
     if args.elr:
         train_criterion = ELRLoss(len(train_dataset), num_classes, args.elr_lambda, args.elr_beta, device=device)
     else:
