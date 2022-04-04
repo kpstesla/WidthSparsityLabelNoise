@@ -93,7 +93,7 @@ def main(args):
         model = model.to(device)
 
     # save initial model
-    save_model(os.path.join(save_path, 'initial_model'), model, num_classes, args)
+    save_model(os.path.join(save_path, 'initial_model.pt'), model, num_classes, args)
 
     # set up loss functions
     val_criterion = nn.CrossEntropyLoss()
@@ -186,7 +186,7 @@ def main(args):
     writer.close()
 
     # save model
-    save_model(os.path.join(save_path, "final_model"), model, num_classes, args)
+    save_model(os.path.join(save_path, "final_model.pt"), model, num_classes, args)
 
     # set up return dict
     ret = {
@@ -200,6 +200,9 @@ def main(args):
         ret["val_losses_2"] = val_losses_2
         ret["val_accs_2"] = val_accs_2
         ret["best_val_accs_2"] = best_val_accs_2
+
+    # save return dict
+    torch.save(ret, os.path.join(save_path, "results.pt"))
 
     # done!
     return ret
