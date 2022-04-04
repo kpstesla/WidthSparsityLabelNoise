@@ -127,6 +127,7 @@ class CSEWrapper(torch.nn.Module):
 
         :param kwargs: kwargs to be passed to torch.nn.CrossEntropyLoss
         """
+        super(CSEWrapper, self).__init__()
         self.loss = torch.nn.CrossEntropyLoss(**kwargs)
 
     def forward(self, outputs, labels, indices):
