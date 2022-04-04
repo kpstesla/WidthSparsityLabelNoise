@@ -13,13 +13,19 @@ lr_milestones:
 
 # training options
 epochs: 120
-subset: false
-subset_size: 0.01
 
 # model options
 width: 64
 density: 1.0
 model: "resnet32"
+
+# dataset options
+dataset: "CIFAR10"
+data_root: "data/"
+cache: true
+mislabel_ratio: 0
+subset: false
+subset_size: 0.01
 
 # elr options
 elr: false
@@ -32,13 +38,11 @@ mixup_strength: 1.0
 
 # run options
 gpu: 0
-dataset: "CIFAR10"
 num_workers: 8
 pin_memory: true
 prefetch_factor: 2
 run_name: "template"
 save_dir: "saved/"
-data_root: "data/"
 
 # model loading options
 load_model: false
