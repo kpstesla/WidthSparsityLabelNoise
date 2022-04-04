@@ -10,13 +10,11 @@ import torch.nn as nn
 DEFAULT_CONFIG = "exps/template.yaml"
 
 
-def parse_args_with_config(args_str=None):
+def parse_args_with_config():
     # try and parse config first
     parser = ArgumentParser(description="Dynamic config based argument parser")
     parser.add_argument("-c", "--config", default=DEFAULT_CONFIG)
-    if args_str is None:
-        args_str = sys.argv
-    known_args, _ = parser.parse_known_args(args_str)
+    known_args, _ = parser.parse_known_args()
 
     # open config
     f = open(known_args.config)
@@ -36,7 +34,7 @@ def parse_args_with_config(args_str=None):
             parser_config.add_argument(f"--{key.lower()}", default=val)
 
     # parse arguments with new arg parser
-    args = parser_config.parse_args(args_str)
+    args = parser_config.parse_args()
 
     # use 'disable_' arguments to optionally disable boolean arguments
     for key, val in args.__dict__.items():
