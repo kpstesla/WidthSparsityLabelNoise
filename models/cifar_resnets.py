@@ -90,7 +90,7 @@ class ResNet(nn.Module):
         self.in_planes = 1*k
 
         self.conv1 = nn.Conv2d(3, 1*k, kernel_size=3, stride=1, padding=1, bias=False)
-        self.bn1 = nn.BatchNorm2d(16)
+        self.bn1 = nn.BatchNorm2d(1*k)
         self.layer1 = self._make_layer(block, 1*k, num_blocks[0], stride=1)
         self.layer2 = self._make_layer(block, 2*k, num_blocks[1], stride=2)
         self.layer3 = self._make_layer(block, 4*k, num_blocks[2], stride=2)
