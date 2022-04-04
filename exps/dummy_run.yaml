@@ -12,7 +12,7 @@ lr_milestones:
   - 100
 
 # training options
-epochs: 120
+epochs: 2
 
 # model options
 width: 4
