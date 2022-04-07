@@ -31,7 +31,7 @@ def parse_args_with_config():
             parser_config.add_argument(f"--{key.lower()}", action='store_true', default=val)
             parser_config.add_argument(f"--disable_{key.lower()}", action="store_true", default=not val)
         else:
-            parser_config.add_argument(f"--{key.lower()}", default=val)
+            parser_config.add_argument(f"--{key.lower()}", default=val, type=type(val))
 
     # parse arguments with new arg parser
     args = parser_config.parse_args()
