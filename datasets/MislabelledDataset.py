@@ -38,7 +38,7 @@ class MislabelledDataset(Dataset):
             x, y = self.dataset[i]
             if self.cache:
                 self.x_cache.append(x)
-            if np.random.random() < self.mislabel_ratio:
+            if np.random.random() < float(self.mislabel_ratio):
                 if asym:
                     self.fake_labels.append(permu_list[y])
                 else:
