@@ -181,6 +181,7 @@ def main(args):
         "mixup_strength": args.mixup_strength,
         "num_classes": num_classes
     }, {
+        "best_acc": best_val_acc
     })
     writer.flush()
     writer.close()
