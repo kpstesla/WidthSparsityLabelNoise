@@ -84,14 +84,14 @@ def load_datasets(args):
         train_data = CIFAR10(args.data_root, train=True, transform=cifar_normalize, download=True)
         val_data = CIFAR10(args.data_root, train=False, transform=cifar_normalize, download=True)
         train_dataset = MislabelledDataset(train_data, mislabel_ratio=args.mislabel_ratio, num_classes=10,
-                                           cache=args.cache, transform=cifar_aug)
+                                           cache=args.cache, transform=cifar_aug, asym=args.asym)
         val_dataset = MislabelledDataset(val_data, mislabel_ratio=0, num_classes=10, cache=args.cache)
         num_classes = 10
     elif args.dataset.lower() == "cifar100":
         train_data = CIFAR100(args.data_root, train=True, transform=cifar_normalize, download=True)
         val_data = CIFAR100(args.data_root, train=False, transform=cifar_normalize, download=True)
         train_dataset = MislabelledDataset(train_data, mislabel_ratio=args.mislabel_ratio, num_classes=100,
-                                           cache=args.cache, transform=cifar_aug)
+                                           cache=args.cache, transform=cifar_aug, asym=args.asym)
         val_dataset = MislabelledDataset(val_data, mislabel_ratio=0, num_classes=100, cache=args.cache)
         num_classes = 100
     elif args.dataset.lower() == "webvision":

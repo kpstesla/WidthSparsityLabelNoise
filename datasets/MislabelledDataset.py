@@ -4,7 +4,8 @@ import numpy as np
 
 
 class MislabelledDataset(Dataset):
-    def __init__(self, dataset, mislabel_ratio=0, num_classes=10, cache=True, transform=None, target_transform=None):
+    def __init__(self, dataset, mislabel_ratio=0, num_classes=10, cache=True, transform=None, target_transform=None,
+                 asym=False):
         """
         Mislabelled Dataset wrapper.  Returns items as (x, fake_label, real_label, index).
 
@@ -23,13 +24,25 @@ class MislabelledDataset(Dataset):
         self.transform = transform
         self.target_transform = target_transform
 
+        # permutation list for asymmetric noise
+        class_list = np.arange(num_classes)
+        permu_list = np.random.permutation(class_list)
+        while True:
+            if np.any(class_list == permu_list):
+                permu_list = np.random.permutation(class_list)
+            else:
+                break
+
         # get labels, potentially cache x, and generate fake labels
         for i in range(len(self.dataset)):
             x, y = self.dataset[i]
             if self.cache:
                 self.x_cache.append(x)
             if np.random.random() < self.mislabel_ratio:
-                self.fake_labels.append(np.random.choice(num_classes))
+                if asym:
+                    self.fake_labels.append(permu_list[y])
+                else:
+                    self.fake_labels.append(np.random.choice(num_classes))
             else:
                 self.fake_labels.append(y)
             self.real_labels.append(y)

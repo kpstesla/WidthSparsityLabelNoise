@@ -24,6 +24,7 @@ dataset: "CIFAR10"
 data_root: "data/"
 cache: true
 mislabel_ratio: 0
+asym: False
 subset: true
 subset_size: 0.01
 
