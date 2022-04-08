@@ -15,7 +15,7 @@ lr_milestones:
 epochs: 120
 
 # model options
-width: 64
+width: 16
 density: 1.0
 model: "resnet32"
 
