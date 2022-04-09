@@ -42,7 +42,10 @@ class MislabelledDataset(Dataset):
                 if asym:
                     self.fake_labels.append(permu_list[y])
                 else:
-                    self.fake_labels.append(np.random.choice(num_classes))
+                    new_target = np.random.choice(num_classes)
+                    while new_target == y:
+                        new_target = np.random.choice(num_classes)
+                    self.fake_labels.append(new_target)
             else:
                 self.fake_labels.append(y)
             self.real_labels.append(y)
