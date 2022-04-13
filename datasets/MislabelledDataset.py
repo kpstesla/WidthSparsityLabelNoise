@@ -35,7 +35,8 @@ class MislabelledDataset(Dataset):
                 break
 
         # get labels, potentially cache x, and generate fake labels
-        print(f"Caching Dataset {self.dataset}")
+        if self.cache:
+            print(f"Caching..")
         for i in tqdm(range(len(self.dataset))):
             x, y = self.dataset[i]
             if self.cache:

@@ -111,13 +111,14 @@ class WebvisionDataset(Dataset):
         for line in lines:
             s = line.split()
             path, label = s[0], int(s[1])
-            if not train:
-                path = os.path.join('val_images_256/', path)
+            # only include if label is in the first num_clases
+            if label < self.num_classes:
+                if not train:
+                    path = os.path.join('val_images_256/', path)
+                path = os.path.join(self.data_root, path)
 
-            path = os.path.join(self.data_root, path)
-
-            self.img_paths.append(path)
-            self.labels.append(s[1])
+                self.img_paths.append(path)
+                self.labels.append(s[1])
 
     def __len__(self):
         return len(self.labels)

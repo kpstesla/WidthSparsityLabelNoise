@@ -83,15 +83,19 @@ def load_datasets(args):
     if args.dataset.lower() == "cifar10":
         train_data = CIFAR10(args.data_root, train=True, transform=cifar_normalize, download=True)
         val_data = CIFAR10(args.data_root, train=False, transform=cifar_normalize, download=True)
+        print("Loading CIFAR10 training set...")
         train_dataset = MislabelledDataset(train_data, mislabel_ratio=args.mislabel_ratio, num_classes=10,
                                            cache=args.cache, transform=cifar_aug, asym=args.asym)
+        print("Loading CIFAR10 validation set...")
         val_dataset = MislabelledDataset(val_data, mislabel_ratio=0, num_classes=10, cache=args.cache)
         num_classes = 10
     elif args.dataset.lower() == "cifar100":
         train_data = CIFAR100(args.data_root, train=True, transform=cifar_normalize, download=True)
         val_data = CIFAR100(args.data_root, train=False, transform=cifar_normalize, download=True)
+        print("Loading CIFAR100 training set...")
         train_dataset = MislabelledDataset(train_data, mislabel_ratio=args.mislabel_ratio, num_classes=100,
                                            cache=args.cache, transform=cifar_aug, asym=args.asym)
+        print("Loading CIFAR100 validation set...")
         val_dataset = MislabelledDataset(val_data, mislabel_ratio=0, num_classes=100, cache=args.cache)
         num_classes = 100
     elif args.dataset.lower() == "webvision":
@@ -100,8 +104,11 @@ def load_datasets(args):
                                     transform=transforms.Compose([im_web_normalize, web_test]))
         val_2_data = ImagenetDataset(args.data_root, 50, train=False,
                                      transform=transforms.Compose([im_web_normalize, im_test]))
+        print("Loading MiniWebvision training set...")
         train_dataset = MislabelledDataset(train_data, num_classes=50, cache=args.cache, transform=web_train_aug)
+        print("Loading MiniWebvision validation set...")
         val_dataset = MislabelledDataset(val_data, num_classes=50, cache=args.cache)
+        print("Loading Imagenet validation set...")
         val_2_dataset = MislabelledDataset(val_2_data, num_classes=50, cache=args.cache)
         num_classes = 50
     else:
