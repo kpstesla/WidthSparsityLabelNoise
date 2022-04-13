@@ -118,7 +118,7 @@ class WebvisionDataset(Dataset):
                 path = os.path.join(self.data_root, path)
 
                 self.img_paths.append(path)
-                self.labels.append(s[1])
+                self.labels.append(label)
 
     def __len__(self):
         return len(self.labels)
