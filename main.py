@@ -113,6 +113,8 @@ def main(args):
     # train loop stats
     val_acc = 0
     val_acc_2 = 0
+    val_loss = 0
+    val_loss_2 = 0
     best_val_acc = 0
     best_val_acc_2 = 0
     train_losses = []
@@ -135,7 +137,7 @@ def main(args):
             train_loss, train_acc = train(model, train_criterion, optimizer, train_loader, e, device)
 
         # validate
-        if e % args.eval_every:
+        if e % args.eval_every == 0:
             model.eval()
             val_loss, val_acc = validate(model, val_criterion, val_loader, e, device)
             if val_loader_2 is not None:
@@ -147,7 +149,7 @@ def main(args):
         # store data
         train_losses.append(train_loss)
         train_accs.append(train_acc)
-        if e % args.eval_every:
+        if e % args.eval_every == 0:
             best_val_acc = max(best_val_acc, val_acc)
             val_losses.append(val_loss)
             val_accs.append(val_acc)
