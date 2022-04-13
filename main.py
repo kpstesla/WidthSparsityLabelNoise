@@ -42,6 +42,7 @@ def main(args):
     num_classes, train_dataset, val_dataset, val_dataset_2 = load_datasets(args)
 
     # optionally take a random subset of the data (for speed)
+    '''
     if args.subset:
         train_size = int(len(train_dataset) * args.subset_size)
         train_dataset = Subset(train_dataset, np.random.choice(len(train_dataset), train_size, replace=False))
@@ -50,6 +51,7 @@ def main(args):
         if val_dataset_2 is not None:
             val_size_2 = int(len(val_dataset_2) * args.subset_size)
             val_dataset_2 = Subset(val_dataset_2, np.random.choice(len(val_dataset_2), val_size, replace=False))
+    '''
 
     # setup dataloaders
     train_loader = DataLoader(train_dataset, args.batch_size, shuffle=True, num_workers=args.num_workers,

@@ -4,8 +4,11 @@ import yaml
 import torchvision.transforms as transforms
 from torchvision.datasets import CIFAR10, CIFAR100
 from datasets import MislabelledDataset, WebvisionDataset, ImagenetDataset
+from torch.utils.data import Subset
 import torch
 import torch.nn as nn
+import numpy as np
+
 
 DEFAULT_CONFIG = "exps/template.yaml"
 
@@ -83,6 +86,11 @@ def load_datasets(args):
     if args.dataset.lower() == "cifar10":
         train_data = CIFAR10(args.data_root, train=True, transform=cifar_normalize, download=True)
         val_data = CIFAR10(args.data_root, train=False, transform=cifar_normalize, download=True)
+        if args.subset:
+            train_sample = np.random.choice(len(train_data), int(args.subset_size * len(train_data)), replace=False)
+            val_sample = np.random.choice(len(val_data), int(args.subset_size * len(val_data)), replace=False)
+            train_data = Subset(train_data, train_sample)
+            val_data = Subset(val_data, val_sample)
         print("Loading CIFAR10 training set...")
         train_dataset = MislabelledDataset(train_data, mislabel_ratio=args.mislabel_ratio, num_classes=10,
                                            cache=args.cache, transform=cifar_aug, asym=args.asym)
@@ -92,6 +100,11 @@ def load_datasets(args):
     elif args.dataset.lower() == "cifar100":
         train_data = CIFAR100(args.data_root, train=True, transform=cifar_normalize, download=True)
         val_data = CIFAR100(args.data_root, train=False, transform=cifar_normalize, download=True)
+        if args.subset:
+            train_sample = np.random.choice(len(train_data), int(args.subset_size * len(train_data)), replace=False)
+            val_sample = np.random.choice(len(val_data), int(args.subset_size * len(val_data)), replace=False)
+            train_data = Subset(train_data, train_sample)
+            val_data = Subset(val_data, val_sample)
         print("Loading CIFAR100 training set...")
         train_dataset = MislabelledDataset(train_data, mislabel_ratio=args.mislabel_ratio, num_classes=100,
                                            cache=args.cache, transform=cifar_aug, asym=args.asym)
@@ -104,6 +117,13 @@ def load_datasets(args):
                                     transform=transforms.Compose([im_web_normalize, web_test]))
         val_2_data = ImagenetDataset(args.data_root, 50, train=False,
                                      transform=transforms.Compose([im_web_normalize, im_test]))
+        if args.subset:
+            train_sample = np.random.choice(len(train_data), int(args.subset_size * len(train_data)), replace=False)
+            val_sample = np.random.choice(len(val_data), int(args.subset_size * len(val_data)), replace=False)
+            val_2_sample = np.random.choice(len(val_2_data), int(args.subset_size * len(val_2_data)), replace=False)
+            train_data = Subset(train_data, train_sample)
+            val_data = Subset(val_data, val_sample)
+            val_2_data = Subset(val_2_data, val_2_sample)
         print("Loading MiniWebvision training set...")
         train_dataset = MislabelledDataset(train_data, num_classes=50, cache=args.cache, transform=web_train_aug)
         print("Loading MiniWebvision validation set...")
