@@ -33,7 +33,7 @@ class ImagenetDataset(Dataset):
         """
 
         self.data_root = os.path.join(data_root, 'imagenet')
-        self.img_folder = os.path.join(data_root, 'train/' if train else 'val/')
+        self.img_folder = os.path.join(self.data_root, 'train/' if train else 'val/')
         self.num_classes = num_classes
         self.train = train
         self.transform = transform
