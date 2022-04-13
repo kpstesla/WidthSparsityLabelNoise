@@ -37,40 +37,48 @@ class MislabelledDataset(Dataset):
         # get labels, potentially cache x, and generate fake labels
         if self.cache:
             print(f"Caching...")
-        for i in tqdm(range(len(self.dataset))):
-            x, y = self.dataset[i]
-            if self.cache:
-                self.x_cache.append(x)
-            if np.random.random() < float(self.mislabel_ratio):
-                if asym:
-                    self.fake_labels.append(permu_list[y])
-                else:
-                    new_target = np.random.choice(num_classes)
-                    while new_target == y:
+        if self.cache or self.mislabel_ratio > 0:
+            for i in tqdm(range(len(self.dataset))):
+                x, y = self.dataset[i]
+                if self.cache:
+                    self.x_cache.append(x)
+                if np.random.random() < float(self.mislabel_ratio):
+                    if asym:
+                        self.fake_labels.append(permu_list[y])
+                    else:
                         new_target = np.random.choice(num_classes)
-                    self.fake_labels.append(new_target)
-            else:
-                self.fake_labels.append(y)
-            self.real_labels.append(y)
+                        while new_target == y:
+                            new_target = np.random.choice(num_classes)
+                        self.fake_labels.append(new_target)
+                else:
+                    self.fake_labels.append(y)
+                self.real_labels.append(y)
 
     def __len__(self):
         return len(self.dataset)
 
     def __getitem__(self, ind):
-        # get x from cache
+        # if we cached, then get x from cache
+        if self.cache or self.mislabel_ratio > 0:
+            y_real = self.real_labels[ind]
+            y_fake = self.fake_labels[ind]
         if self.cache:
             x = self.x_cache[ind]
         else:
-            x, _ = self.dataset[ind]
-        # apply transforms
+            x, y = self.dataset[ind]
+            if not self.mislabel_ratio > 0:
+                y_fake = y
+                y_real = y
+
+        # transforms
         if self.transform is not None:
             x = self.transform(x)
         if self.target_transform is not None:
-            y_fake = self.target_transform(self.fake_labels[ind])
-            y_real = self.target_transform(self.real_labels[ind])
-        else:
-            y_fake = self.fake_labels[ind]
-            y_real = self.real_labels[ind]
+            y_real = self.target_transform(y_real)
+            y_fake = self.target_transform(y_fake)
+
+        # return
         return x, y_fake, y_real, ind
+
 
 
