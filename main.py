@@ -179,6 +179,8 @@ def main(args):
         "density": args.density,
         "subset": int(args.subset),
         "subset_size": args.subset_size,
+        "cifar_img_size": args.cifar_img_size,
+        "webvision_img_size": args.webvision_img_size,
         "elr": int(args.elr),
         "elr_lambda": args.elr_lambda,
         "elr_beta": args.elr_beta,

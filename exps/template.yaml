@@ -13,6 +13,7 @@ lr_milestones:
 
 # training options
 epochs: 120
+eval_every: 2
 
 # model options
 width: 16
