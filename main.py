@@ -112,7 +112,7 @@ def main(args):
 
     # train loop stats
     val_acc = 0
-    val_acc_2 =
+    val_acc_2 = 0
     best_val_acc = 0
     best_val_acc_2 = 0
     train_losses = []
