@@ -136,6 +136,9 @@ def main(args):
         if val_loader_2 is not None:
             val_loss_2, val_acc_2 = validate(model, val_criterion, val_loader_2, e, device)
 
+        # step lr
+        lr_scheduler.step()
+
         # store data
         best_val_acc = max(best_val_acc, val_acc)
         train_losses.append(train_loss)
