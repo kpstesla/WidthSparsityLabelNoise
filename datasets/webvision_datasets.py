@@ -89,7 +89,7 @@ class WebvisionDataset(Dataset):
         :param transform: transform to apply to images
         :param target_transform: transform to apply to labels
         """
-        self.data_root = os.path.join(data_root, 'imagenet')
+        self.data_root = os.path.join(data_root, 'webvision')
         self.num_classes = num_classes
         self.transform = transform
         self.target_transform = target_transform
