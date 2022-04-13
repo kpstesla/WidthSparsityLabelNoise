@@ -17,7 +17,7 @@ epochs: 120
 # model options
 width: 64
 density: 1.0
-model: "resnet50"
+model: "resnet18"
 
 # dataset options
 dataset: "webvision"
@@ -27,6 +27,8 @@ mislabel_ratio: 0.0
 asym: False
 subset: false
 subset_size: 0.01
+cifar_img_size: 32
+webvision_img_size: 128
 
 # elr options
 elr: false

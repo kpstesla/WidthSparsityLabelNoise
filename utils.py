@@ -59,7 +59,8 @@ def load_datasets(args):
     # set up data augmentations and normalizations
     cifar_normalize = transforms.Compose([
         transforms.ToTensor(),
-        transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010))
+        transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)),
+        transforms.Resize(args.cifar_img_size)
     ])
     cifar_aug = transforms.Compose([
         transforms.RandomCrop(32, padding=4),
@@ -71,14 +72,17 @@ def load_datasets(args):
     ])
     web_train_aug = transforms.Compose([
         transforms.RandomCrop(227),
+        transforms.Resize(args.webvision_img_size),
         transforms.RandomHorizontalFlip()
     ])
     web_test = transforms.Compose([
-        transforms.CenterCrop(227)
+        transforms.CenterCrop(227),
+        transforms.Resize(args.webvision_img_size),
     ])
     im_test = transforms.Compose([
         transforms.Resize(256),
-        transforms.CenterCrop(227)
+        transforms.CenterCrop(227),
+        transforms.Resize(args.webvision_img_size),
     ])
 
     # select dataset to load

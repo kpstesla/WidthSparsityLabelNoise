@@ -164,7 +164,7 @@ def main(args):
         if val_loader_2 is not None:
             writer.add_scalar("loss/val_2", val_loss_2, e)
             writer.add_scalar("acc/val_2", val_acc_2, e)
-            writer.add_scalar("acc/val_2_best", best_val_acc_2)
+            writer.add_scalar("acc/val_2_best", best_val_acc_2, e)
 
     # log hyperparams
     writer.add_hparams({
