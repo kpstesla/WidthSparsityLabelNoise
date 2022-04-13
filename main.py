@@ -133,10 +133,11 @@ def main(args):
             train_loss, train_acc = train(model, train_criterion, optimizer, train_loader, e, device)
 
         # validate
-        model.eval()
-        val_loss, val_acc = validate(model, val_criterion, val_loader, e, device)
-        if val_loader_2 is not None:
-            val_loss_2, val_acc_2 = validate(model, val_criterion, val_loader_2, e, device)
+        if e % args.eval_every:
+            model.eval()
+            val_loss, val_acc = validate(model, val_criterion, val_loader, e, device)
+            if val_loader_2 is not None:
+                val_loss_2, val_acc_2 = validate(model, val_criterion, val_loader_2, e, device)
 
         # step lr
         lr_scheduler.step()
