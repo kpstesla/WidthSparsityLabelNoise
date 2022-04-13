@@ -111,6 +111,8 @@ def main(args):
     lr_scheduler = MultiStepLR(optimizer, args.lr_milestones, args.lr_gamma)
 
     # train loop stats
+    val_acc = 0
+    val_acc_2 =
     best_val_acc = 0
     best_val_acc_2 = 0
     train_losses = []
@@ -143,17 +145,18 @@ def main(args):
         lr_scheduler.step()
 
         # store data
-        best_val_acc = max(best_val_acc, val_acc)
         train_losses.append(train_loss)
         train_accs.append(train_acc)
-        val_losses.append(val_loss)
-        val_accs.append(val_acc)
-        best_val_accs.append(best_val_acc)
-        if val_loader_2 is not None:
-            best_val_acc_2 = max(best_val_acc_2, val_acc_2)
-            val_losses_2.append(val_loss_2)
-            val_accs_2.append(val_acc_2)
-            best_val_accs_2.append(best_val_acc_2)
+        if e % args.eval_every:
+            best_val_acc = max(best_val_acc, val_acc)
+            val_losses.append(val_loss)
+            val_accs.append(val_acc)
+            best_val_accs.append(best_val_acc)
+            if val_loader_2 is not None:
+                best_val_acc_2 = max(best_val_acc_2, val_acc_2)
+                val_losses_2.append(val_loss_2)
+                val_accs_2.append(val_acc_2)
+                best_val_accs_2.append(best_val_acc_2)
 
         # tensorboard log stats
         writer.add_scalar("loss/train", train_loss, e)
