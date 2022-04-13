@@ -1,6 +1,7 @@
 import torch
 from torch.utils.data import Dataset
 import numpy as np
+from tqdm import tqdm
 
 
 class MislabelledDataset(Dataset):
@@ -34,7 +35,8 @@ class MislabelledDataset(Dataset):
                 break
 
         # get labels, potentially cache x, and generate fake labels
-        for i in range(len(self.dataset)):
+        print(f"Caching Dataset {self.dataset}")
+        for i in tqdm(range(len(self.dataset))):
             x, y = self.dataset[i]
             if self.cache:
                 self.x_cache.append(x)
