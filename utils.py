@@ -32,7 +32,7 @@ def parse_args_with_config():
             val = val.lower()
         if type(val) is bool:
             parser_config.add_argument(f"--{key.lower()}", action='store_true', default=val)
-            parser_config.add_argument(f"--disable_{key.lower()}", action="store_true", default=not val)
+            parser_config.add_argument(f"--disable_{key.lower()}", action="store_true", default=False)
         else:
             parser_config.add_argument(f"--{key.lower()}", default=val, type=type(val))
 
