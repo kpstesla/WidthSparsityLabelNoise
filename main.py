@@ -108,7 +108,7 @@ def main(args):
     if args.optimizer == "sgd":
         optimizer = SGD(model.parameters(), args.learning_rate, args.momentum, weight_decay=args.l2_reg)
     elif args.optimizer == "adamw":
-        optimizer = AdamW(model.parameters, lr=args.learning_rate, weight_decay=args.l2_reg)
+        optimizer = AdamW(model.parameters(), lr=args.learning_rate, weight_decay=args.l2_reg)
     else:
         raise NotImplementedError()
 
