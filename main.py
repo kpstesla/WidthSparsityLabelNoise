@@ -9,7 +9,7 @@ from robust import ELRLoss
 from train import train, train_mixup, validate
 from torch.utils.tensorboard import SummaryWriter
 from torch.utils.data import Subset, DataLoader
-from torch.optim import SGD
+from torch.optim import SGD, AdamW
 from torch.optim.lr_scheduler import MultiStepLR
 import torch.nn.utils.prune as prune
 import torch.nn as nn
@@ -105,7 +105,12 @@ def main(args):
         train_criterion = val_criterion
 
     # set up optimizer
-    optimizer = SGD(model.parameters(), args.learning_rate, args.momentum, weight_decay=args.l2_reg)
+    if args.optimizer == "sgd":
+        optimizer = SGD(model.parameters(), args.learning_rate, args.momentum, weight_decay=args.l2_reg)
+    elif args.optimizer == "adamw":
+        optimizer = AdamW(model.parameters, lr=args.learning_rate, weight_decay=args.l2_reg)
+    else:
+        raise NotImplementedError()
 
     # set up lr scheduler
     lr_scheduler = MultiStepLR(optimizer, args.lr_milestones, args.lr_gamma)
