@@ -108,6 +108,10 @@ def resnet18(width=1, num_classes=10):
 def resnet34(width=1, num_classes=10):
     return ResNet(BasicBlock, [3, 4, 6, 3], k=width, num_classes=num_classes)
 
+def resnet50(width=1, num_classes=10):
+    return ResNet(Bottleneck, [3, 4, 6, 3], k=width, num_classes=num_classes)
 
+'''
 def resnet50(width=1, num_classes=10):
     return ResNet(BasicBlock, [3, 4, 14, 3], k=width, num_classes=num_classes)
+'''
