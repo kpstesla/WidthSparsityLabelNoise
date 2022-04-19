@@ -30,7 +30,7 @@ asym: False
 subset: false
 subset_size: 0.01
 cifar_img_size: 32
-webvision_img_size: 128
+webvision_img_size: 227
 
 # elr options
 elr: true
