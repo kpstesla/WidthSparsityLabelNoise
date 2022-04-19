@@ -4,7 +4,7 @@ optimizer: "sgd"
 batch_size: 32
 learning_rate: 0.02
 momentum: 0.9
-l2_reg: 0.001
+l2_reg: 0.0005
 
 # lr scheduler options
 lr_gamma: 0.01
@@ -13,7 +13,7 @@ lr_milestones:
   - 80
 
 # training options
-epochs: 120
+epochs: 150
 eval_every: 2
 
 # model options
@@ -27,8 +27,8 @@ data_root: "data/"
 cache: false
 mislabel_ratio: 0.0
 asym: False
-subset: True
-subset_size: 0.1
+subset: false
+subset_size: 0.01
 cifar_img_size: 32
 webvision_img_size: 128
 
