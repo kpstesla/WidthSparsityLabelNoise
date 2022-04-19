@@ -46,8 +46,8 @@ gpu: 6
 num_workers: 8
 pin_memory: true
 prefetch_factor: 4
-run_name: "template"
-save_dir: "saved/"
+run_name: "cifar10_debug_elr"
+save_dir: "saved_debug/"
 
 # model loading options
 load_model: false
