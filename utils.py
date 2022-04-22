@@ -116,10 +116,17 @@ def load_datasets(args):
         val_dataset = MislabelledDataset(val_data, mislabel_ratio=0, num_classes=100, cache=args.cache)
         num_classes = 100
     elif args.dataset.lower() == "webvision":
-        train_data = WebvisionDataset(args.data_root, 50, train=True, transform=im_web_normalize)
-        val_data = WebvisionDataset(args.data_root, 50, train=False,
+        num_classes = 50
+        inds = None
+        if args.webvision_custom_inds:
+            print("Loading custom indices")
+            inds = np.load(args.custom_inds_path)
+            num_classes = len(inds)
+        train_data = WebvisionDataset(args.data_root, num_classes, train=True, class_inds=inds,
+                                      transform=im_web_normalize)
+        val_data = WebvisionDataset(args.data_root, num_classes, train=False, class_inds=inds,
                                     transform=transforms.Compose([im_web_normalize, web_test]))
-        val_2_data = ImagenetDataset(args.data_root, 50, train=False,
+        val_2_data = ImagenetDataset(args.data_root, num_classes, train=False, class_inds=inds,
                                      transform=transforms.Compose([im_web_normalize, im_test]))
         if args.subset:
             train_sample = np.random.choice(len(train_data), int(args.subset_size * len(train_data)), replace=False)
@@ -129,12 +136,12 @@ def load_datasets(args):
             val_data = Subset(val_data, val_sample)
             val_2_data = Subset(val_2_data, val_2_sample)
         print("Loading MiniWebvision training set...")
-        train_dataset = MislabelledDataset(train_data, num_classes=50, cache=args.cache, transform=web_train_aug)
+        train_dataset = MislabelledDataset(train_data, num_classes=num_classes, cache=args.cache,
+                                           transform=web_train_aug)
         print("Loading MiniWebvision validation set...")
-        val_dataset = MislabelledDataset(val_data, num_classes=50, cache=args.cache)
+        val_dataset = MislabelledDataset(val_data, num_classes=num_classes, cache=args.cache)
         print("Loading Imagenet validation set...")
-        val_2_dataset = MislabelledDataset(val_2_data, num_classes=50, cache=args.cache)
-        num_classes = 50
+        val_2_dataset = MislabelledDataset(val_2_data, num_classes=num_classes, cache=args.cache)
     else:
         raise NotImplementedError
 

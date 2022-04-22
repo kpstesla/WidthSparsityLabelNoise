@@ -31,6 +31,8 @@ subset: true
 subset_size: 0.01
 cifar_img_size: 32
 webvision_img_size: 227
+webvision_custom_inds: false
+custom_inds_path: "exps/custom_inds/noisy_50.npy"
 
 # elr options
 elr: false
