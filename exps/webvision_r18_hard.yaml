@@ -48,7 +48,7 @@ gpu: 0
 num_workers: 8
 pin_memory: true
 prefetch_factor: 2
-run_name: "webvision_small"
+run_name: "web_r18_w64_noisy50"
 save_dir: "saved/"
 
 # model loading options

@@ -143,7 +143,8 @@ class WebvisionDataset(Dataset):
             s = line.split()
             path, label = s[0], int(s[1])
             # only include if label is in the first num_classes
-            if label < self.num_classes or class_inds is not None and label in class_inds:
+            if self.class_inds is None and label < self.num_classes or \
+                    self.class_inds is not None and label in self.class_inds:
                 if not train:
                     path = os.path.join('val_images_256/', path)
                 path = os.path.join(self.data_root, path)
