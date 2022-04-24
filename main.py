@@ -94,6 +94,7 @@ def main(args):
     if args.dataparallel:
         model = nn.DataParallel(model)
         device = f'cuda:{model.device_ids[0]}'
+        model = model.to(device)
     else:
         if device is not None:
             model = model.to(device)
