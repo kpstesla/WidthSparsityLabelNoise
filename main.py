@@ -94,6 +94,9 @@ def main(args):
     if device is not None:
         model = model.to(device)
 
+    if args.dataparallel:
+        model = nn.DataParallel(model)
+
     # save initial model
     save_model(os.path.join(save_path, 'initial_model.pt'), model, num_classes, args)
 
