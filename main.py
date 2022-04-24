@@ -91,11 +91,12 @@ def main(args):
         # prune the model
         prune.global_unstructured(get_prunable_params(model), prune.RandomUnstructured, amount=(1 - args.density))
 
-    if device is not None:
-        model = model.to(device)
-
     if args.dataparallel:
         model = nn.DataParallel(model)
+        device = model.device_ids[0]
+    else:
+        if device is not None:
+            model = model.to(device)
 
     # save initial model
     save_model(os.path.join(save_path, 'initial_model.pt'), model, num_classes, args)
