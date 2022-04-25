@@ -70,6 +70,11 @@ def load_datasets(args):
         transforms.ToTensor(),
         transforms.Normalize((0.485, 0.456, 0.406), (0.229, 0.224, 0.225))
     ])
+    nmi_normalize = transforms.Compose([
+        transforms.ToTensor(),
+        transforms.Normalize((0.485, 0.456, 0.406), (0.229, 0.224, 0.225)),
+        transforms.Resize(299)
+    ])
     web_train_aug = transforms.Compose([
         transforms.RandomCrop(227),
         transforms.Resize(args.webvision_img_size),
@@ -144,9 +149,9 @@ def load_datasets(args):
         val_2_dataset = MislabelledDataset(val_2_data, num_classes=num_classes, cache=args.cache)
     elif args.dataset.lower() == "noisyminiimagenet":
         num_classes = 100
-        train_data = NoisyMiniImagenet(args.data_root, train=True, transform=im_web_normalize)
+        train_data = NoisyMiniImagenet(args.data_root, train=True, transform=nmi_normalize)
         val_data = NoisyMiniImagenet(args.data_root, train=False,
-                                     transform=transforms.Compose([im_web_normalize, im_test]))
+                                     transform=transforms.Compose([nmi_normalize, im_test]))
         if args.subset:
             train_sample = np.random.choice(len(train_data), int(args.subset_size * len(train_data)), replace=False)
             val_sample = np.random.choice(len(val_data), int(args.subset_size * len(val_data)), replace=False)
