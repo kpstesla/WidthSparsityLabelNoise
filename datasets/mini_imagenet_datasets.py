@@ -2,6 +2,7 @@ import numpy as np
 from torch.utils.data import Dataset
 import os
 from PIL import Image
+import warnings
 
 
 class NoisyMiniImagenet(Dataset):
@@ -57,12 +58,18 @@ class NoisyMiniImagenet(Dataset):
                 self.labels.append(label)
                 self.paths.append(path)
 
+        warnings.filterwarnings("ignore", category=UserWarning)
+
     def __len__(self):
         return len(self.labels)
 
     def __getitem__(self, ind):
         path, label = self.paths[ind], self.labels[ind]
+
+        # this doesn't like pngs I think
         img = Image.open(path).convert('RGB')
+
+
         if self.transform is not None:
             img = self.transform(img)
         if self.target_transform is not None:
