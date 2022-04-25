@@ -24,7 +24,7 @@ model: "resnet32"
 # dataset options
 dataset: "NoisyMiniImagenet"
 data_root: "data/"
-cache: true
+cache: false
 mislabel_ratio: 0.0
 asym: False
 subset: false
