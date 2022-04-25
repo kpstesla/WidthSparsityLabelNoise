@@ -3,7 +3,7 @@ import sys
 import yaml
 import torchvision.transforms as transforms
 from torchvision.datasets import CIFAR10, CIFAR100
-from datasets import MislabelledDataset, WebvisionDataset, ImagenetDataset
+from datasets import MislabelledDataset, WebvisionDataset, ImagenetDataset, NoisyMiniImagenet
 from torch.utils.data import Subset
 import torch
 import torch.nn as nn
@@ -142,6 +142,23 @@ def load_datasets(args):
         val_dataset = MislabelledDataset(val_data, num_classes=num_classes, cache=args.cache)
         print("Loading Imagenet validation set...")
         val_2_dataset = MislabelledDataset(val_2_data, num_classes=num_classes, cache=args.cache)
+    elif args.dataset.lower() == "noisyminiimagenet":
+        num_classes = 100
+        train_data = NoisyMiniImagenet(args.data_root, train=True, transform=im_web_normalize)
+        val_data = NoisyMiniImagenet(args.data_root, train=False,
+                                     transform=transforms.Compose([im_web_normalize, im_test]))
+        if args.subset:
+            train_sample = np.random.choice(len(train_data), int(args.subset_size * len(train_data)), replace=False)
+            val_sample = np.random.choice(len(val_data), int(args.subset_size * len(val_data)), replace=False)
+            train_data = Subset(train_data, train_sample)
+            val_data = Subset(val_data, val_sample)
+        print("Loading NoisyMiniImagenet training set...")
+        train_dataset = MislabelledDataset(train_data, num_classes=num_classes, cache=args.cache,
+                                           transform=web_train_aug)
+        print("Loading NoisyMiniImagenet validation set...")
+        val_dataset = MislabelledDataset(val_data, num_classes=num_classes, cache=args.cache)
+
+
     else:
         raise NotImplementedError
 

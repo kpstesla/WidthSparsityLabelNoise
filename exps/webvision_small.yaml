@@ -45,6 +45,7 @@ mixup_strength: 1.0
 
 # run options
 gpu: 0
+dataparallel: false
 num_workers: 8
 pin_memory: true
 prefetch_factor: 2
