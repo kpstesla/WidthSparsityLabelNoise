@@ -21,7 +21,7 @@ class NoisyMiniImagenet(Dataset):
         :param target_transform: transform to be applied to labels
         """
 
-        self.data_root = data_root
+        self.data_root = os.path.join(data_root, "mini_imagenet/")
         self.transform = transform
         self.target_transform = target_transform
         self.labels = []
