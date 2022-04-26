@@ -59,6 +59,7 @@ class NoisyMiniImagenet(Dataset):
                 self.paths.append(path)
 
         warnings.filterwarnings("ignore", category=UserWarning)
+        warnings.filterwarnings("ignore", message="Image size")
 
     def __len__(self):
         return len(self.labels)
