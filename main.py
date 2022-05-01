@@ -74,8 +74,8 @@ def main(args):
     # optionally load model
     if args.load_model:
         # load checkpoint
-        f = open(args.load_model_path)
-        model_save = torch.load(f, map_location='cpu')
+        # f = open(args.load_model_path)
+        model_save = torch.load(args.load_model_path, map_location='cpu')
 
         # init blank model
         model = models.__dict__[model_save['model']](model_save['width'], model_save['num_classes'])

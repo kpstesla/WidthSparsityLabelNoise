@@ -144,8 +144,6 @@ def validate(model, criterion, test_loader, epoch, device=None):
     :param test_loader: The test loader.
     :param epoch: The current epoch (for tqdm)
     :param device: The device to move the batches to.  If None no data movement will occur.
-    :param classwise: If true, will return test_acc as a vector of size num_classes
-    :param num_classes: The number of classes (only needed if classwise is True).
     :return: test_loss, test_acc
     """
 
