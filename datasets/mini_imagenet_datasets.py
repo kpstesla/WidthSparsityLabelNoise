@@ -28,6 +28,7 @@ class StanfordCarsRed80(Dataset):
         self.paths = []
 
         data_dir = 'train/' if train else 'val/'
+        failed_loads = 0
 
         for imdir in os.listdir(os.path.join(self.data_root, data_dir)):
             # read label
@@ -41,9 +42,13 @@ class StanfordCarsRed80(Dataset):
                 self.labels.append(label)
                 self.paths.append(path)
             except (UnidentifiedImageError, OSError) as e:
+                failed_loads += 1
                 print("Can't open image:")
                 print(type(e), e)
                 print("Corresponding label:", label)
+
+        print(f"Stanford Cars Red 80% {'train' if train else 'val'} set failed loads: {failed_loads}")
+        print(f"Stanford Cars Red 80% {'train' if train else 'val'} set sucessful loads: {len(self.labels)}")
 
     def __len__(self):
         return len(self.labels)
