@@ -40,9 +40,9 @@ class StanfordCarsRed80(Dataset):
                 img = Image.open(path).convert('RGB')
                 self.labels.append(label)
                 self.paths.append(path)
-            except UnidentifiedImageError as e:
+            except (UnidentifiedImageError, OSError) as e:
                 print("Can't open image:")
-                print(e)
+                print(type(e), e)
                 print("Corresponding label:", label)
 
     def __len__(self):
