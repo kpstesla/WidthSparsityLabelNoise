@@ -165,7 +165,7 @@ def load_datasets(args):
     elif args.dataset.lower() == "stanfordcarsred80":
         num_classes = 196
         train_data = StanfordCarsRed80(args.data_root, train=True, transform=nmi_normalize)
-        val_data = StanfordCarsRed80(args.dataroot, train=False,
+        val_data = StanfordCarsRed80(args.data_root, train=False,
                                      transform=transforms.Compose([nmi_normalize, im_test]))
         if args.subset:
             train_sample = np.random.choice(len(train_data), int(args.subset_size * len(train_data)), replace=False)
