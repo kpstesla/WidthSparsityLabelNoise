@@ -31,7 +31,7 @@ class StanfordCarsRed80(Dataset):
 
         for imdir in os.listdir(os.path.join(self.data_root, data_dir)):
             # read label
-            with open(os.path.join(imdir, 'label.txt')) as f:
+            with open(os.path.join(self.data_root, data_dir, imdir, 'label.txt')) as f:
                 label = int(f.readlines()[0])
             # create path
             path = os.path.join(self.data_root, data_dir, imdir, f"{imdir}.jpg")
