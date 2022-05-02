@@ -1,3 +1,3 @@
 from .MislabelledDataset import MislabelledDataset
 from .webvision_datasets import ImagenetDataset, WebvisionDataset
-from .mini_imagenet_datasets import NoisyMiniImagenet
+from .mini_imagenet_datasets import NoisyMiniImagenet, StanfordCarsRed80
