@@ -1,7 +1,7 @@
 import numpy as np
 from torch.utils.data import Dataset
 import os
-from PIL import Image
+from PIL import Image, UnidentifiedImageError
 import warnings
 
 
@@ -35,8 +35,15 @@ class StanfordCarsRed80(Dataset):
                 label = int(f.readlines()[0])
             # create path
             path = os.path.join(self.data_root, data_dir, imdir, f"{imdir}.jpg")
-            self.labels.append(label)
-            self.paths.append(path)
+            # if path is openable
+            try:
+                img = Image.open(path).convert('RGB')
+                self.labels.append(label)
+                self.paths.append(path)
+            except UnidentifiedImageError as e:
+                print("Can't open image:")
+                print(e)
+                print("Corresponding label:", label)
 
     def __len__(self):
         return len(self.labels)
