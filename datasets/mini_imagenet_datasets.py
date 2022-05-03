@@ -38,7 +38,9 @@ class StanfordCarsRed80(Dataset):
             path = os.path.join(self.data_root, data_dir, imdir, f"{imdir}.jpg")
             # if path is openable
             try:
-                img = Image.open(path).convert('RGB')
+                # val data seems to be ok
+                if train:
+                    img = Image.open(path).convert('RGB')
                 self.labels.append(label)
                 self.paths.append(path)
             except (UnidentifiedImageError, OSError) as e:
