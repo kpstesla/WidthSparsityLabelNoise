@@ -17,7 +17,7 @@ epochs: 120
 eval_every: 2
 
 # model options
-width: 16
+width: 64
 density: 1.0
 model: "resnet18"
 
