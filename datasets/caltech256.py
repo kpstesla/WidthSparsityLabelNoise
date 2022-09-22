@@ -13,7 +13,7 @@ class NoisyCaltech256(Dataset):
         self.mislabel_ratio = mislabel_ratio
         self.img_paths = []
         self.labels = []
-        for cls, cls_path in os.listdir(self.data_root):
+        for cls, cls_path in enumerate(os.listdir(self.data_root)):
             cls_full_path = os.path.join(self.data_root, cls_path)
             if train:
                 for img_path in os.listdir(cls_full_path)[n_test:]:
