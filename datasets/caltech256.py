@@ -34,7 +34,7 @@ class NoisyCaltech256(Dataset):
 
     def __getitem__(self, item):
         path, label = self.img_paths[item], self.labels[item]
-        img = Image.open(path)
+        img = Image.open(path).convert('RGB')
         if self.transform is not None:
             img = self.transform(img)
         if self.target_transform is not None:
