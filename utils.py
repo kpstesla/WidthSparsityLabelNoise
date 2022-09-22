@@ -239,9 +239,9 @@ def load_datasets(args):
             val_sample = np.random.choice(len(val_data), int(args.subset_size * len(val_data)), replace=False)
             train_data = Subset(train_data, train_sample)
             val_data = Subset(val_data, val_sample)
-        train_dataset = MislabelledDataset(train_data, num_classes=num_classes, cache=args.cache,
+        train_dataset = MislabelledDataset(train_data, num_classes=num_classes, cache=False,
                                            mislabel_ratio=args.mislabel_ratio)
-        val_dataset = MislabelledDataset(val_data, num_classes=num_classes, cache=args.cache, mislabel_ratio=0)
+        val_dataset = MislabelledDataset(val_data, num_classes=num_classes, cache=False, mislabel_ratio=0)
     else:
         raise NotImplementedError
 
