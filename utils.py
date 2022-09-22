@@ -3,11 +3,13 @@ import sys
 import yaml
 import torchvision.transforms as transforms
 from torchvision.datasets import CIFAR10, CIFAR100
-from datasets import MislabelledDataset, WebvisionDataset, ImagenetDataset, NoisyMiniImagenet, StanfordCarsRed80
+from datasets import MislabelledDataset, WebvisionDataset, ImagenetDataset, NoisyMiniImagenet, StanfordCarsRed80, \
+    NoisyCaltech256
 from torch.utils.data import Subset
 import torch
 import torch.nn as nn
 import numpy as np
+from PIL import Image, ImageEnhance
 
 
 DEFAULT_CONFIG = "exps/template.yaml"
@@ -88,6 +90,55 @@ def load_datasets(args):
         transforms.Resize(256),
         transforms.CenterCrop(227),
         transforms.Resize(args.webvision_img_size),
+    ])
+
+
+    # caltech transforms.  Copied from
+    # https://github.com/TropComplique/image-classification-caltech-256/blob/master/training_utils/data_utils.py
+
+    enhancers = {
+        0: lambda image, f: ImageEnhance.Color(image).enhance(f),
+        1: lambda image, f: ImageEnhance.Contrast(image).enhance(f),
+        2: lambda image, f: ImageEnhance.Brightness(image).enhance(f),
+        3: lambda image, f: ImageEnhance.Sharpness(image).enhance(f)
+    }
+
+    factors = {
+        0: lambda: np.random.normal(1.0, 0.3),
+        1: lambda: np.random.normal(1.0, 0.1),
+        2: lambda: np.random.normal(1.0, 0.1),
+        3: lambda: np.random.normal(1.0, 0.3),
+    }
+
+    # random enhancers in random order
+    def enhance(image):
+        order = [0, 1, 2, 3]
+        np.random.shuffle(order)
+        for i in order:
+            f = factors[i]()
+            image = enhancers[i](image, f)
+        return image
+
+    # train data augmentation on the fly
+    caltech_train = transforms.Compose([
+        transforms.Scale(384, Image.LANCZOS),
+        transforms.RandomCrop(299),
+        transforms.RandomHorizontalFlip(),
+        transforms.Lambda(enhance),
+        transforms.ToTensor(),
+        transforms.Normalize(
+            mean=[0.485, 0.456, 0.406],
+            std=[0.229, 0.224, 0.225]
+        ),
+    ])
+
+    # validation data is already resized
+    caltech_val = transforms.Compose([
+        transforms.ToTensor(),
+        transforms.Normalize(
+            mean=[0.485, 0.456, 0.406],
+            std=[0.229, 0.224, 0.225]
+        ),
     ])
 
     # select dataset to load
@@ -177,6 +228,18 @@ def load_datasets(args):
                                            transform=web_train_aug)
         print("Loading StanfordCarsRed80 validation set...")
         val_dataset = MislabelledDataset(val_data, num_classes=num_classes, cache=args.cache)
+    elif args.dataset.lower() == "caltech256":
+        num_classes = 257
+        train_data = NoisyCaltech256(args.data_root, mislabel_ratio=args.mislabel_ratio, train=True,
+                                     transform=caltech_train)
+        val_data = NoisyCaltech256(args.data_root, mislabel_ratio=0.0, train=False, transform=caltech_val)
+        if args.subset:
+            train_sample = np.random.choice(len(train_data), int(args.subset_size * len(train_data)), replace=False)
+            val_sample = np.random.choice(len(val_data), int(args.subset_size * len(val_data)), replace=False)
+            train_data = Subset(train_data, train_sample)
+            val_data = Subset(val_data, val_sample)
+        train_dataset = train_data
+        val_dataset = val_data
     else:
         raise NotImplementedError
 

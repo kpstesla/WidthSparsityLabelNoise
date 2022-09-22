@@ -1,0 +1,57 @@
+---
+# optimizer options
+optimizer: "sgd"
+batch_size: 128
+learning_rate: 0.1
+momentum: 0.9
+l2_reg: 0.0001
+
+# lr scheduler options
+lr_gamma: 0.1
+lr_milestones:
+  - 80
+  - 100
+
+# training options
+epochs: 120
+eval_every: 2
+
+# model options
+width: 16
+density: 1.0
+model: "resnet18"
+
+# dataset options
+dataset: "caltech256"
+data_root: "data/"
+cache: false
+mislabel_ratio: 0.0
+asym: False
+subset: false
+subset_size: 0.01
+cifar_img_size: 32
+webvision_img_size: 227
+webvision_custom_inds: false
+custom_inds_path: "exps/custom_inds/noisy_50.npy"
+
+# elr options
+elr: false
+elr_lambda: 3.0
+elr_beta: 0.7
+
+# mixup options
+mixup: false
+mixup_strength: 1.0
+
+# run options
+gpu: 0
+dataparallel: false
+num_workers: 8
+pin_memory: true
+prefetch_factor: 2
+run_name: "ct256_r18"
+save_dir: "saved/"
+
+# model loading options
+load_model: false
+load_model_path: "saved/template_xxxxxx/final_model"
