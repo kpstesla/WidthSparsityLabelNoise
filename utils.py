@@ -231,7 +231,7 @@ def load_datasets(args):
         val_dataset = MislabelledDataset(val_data, num_classes=num_classes, cache=args.cache)
     elif args.dataset.lower() == "caltech256":
         num_classes = 257
-        train_data = NoisyCaltech256(args.data_root, mislabel_ratio=args.mislabel_ratio, train=True,
+        train_data = NoisyCaltech256(args.data_root, mislabel_ratio=0.0, train=True,
                                      transform=caltech_train)
         val_data = NoisyCaltech256(args.data_root, mislabel_ratio=0.0, train=False, transform=caltech_val)
         if args.subset:
@@ -239,8 +239,9 @@ def load_datasets(args):
             val_sample = np.random.choice(len(val_data), int(args.subset_size * len(val_data)), replace=False)
             train_data = Subset(train_data, train_sample)
             val_data = Subset(val_data, val_sample)
-        train_dataset = train_data
-        val_dataset = val_data
+        train_dataset = MislabelledDataset(train_data, num_classes=num_classes, cache=args.cache,
+                                           mislabel_ratio=args.mislabel_ratio)
+        val_dataset = MislabelledDataset(val_data, num_classes=num_classes, cache=args.cache, mislabel_ratio=0)
     else:
         raise NotImplementedError
 
