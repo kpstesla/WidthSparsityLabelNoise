@@ -121,8 +121,8 @@ def load_datasets(args):
 
     # train data augmentation on the fly
     caltech_train = transforms.Compose([
-        transforms.Resize(256),
-        transforms.RandomCrop((192, 192)),
+        transforms.Resize(192),
+        transforms.RandomCrop((128, 128)),
         transforms.RandomHorizontalFlip(),
         transforms.Lambda(enhance),
         transforms.ToTensor(),
@@ -134,7 +134,7 @@ def load_datasets(args):
 
     # validation data is already resized
     caltech_val = transforms.Compose([
-        transforms.Resize((192, 192)),
+        transforms.Resize((128, 128)),
         transforms.ToTensor(),
         transforms.Normalize(
             mean=[0.485, 0.456, 0.406],
