@@ -1,0 +1,10 @@
+python main.py --config exps/caltech_r18.yaml --mislabel_ratio 0.6 --subset --subset_size 0.05 --width 16 --run_name "ct256_r18_n60_s005_w16" --gpu 6
+python main.py --config exps/caltech_r18.yaml --mislabel_ratio 0.6 --subset --subset_size 0.05 --width 128 --run_name "ct256_r18_n60_s005_w128" --gpu 6
+python main.py --config exps/caltech_r18.yaml --mislabel_ratio 0.6 --subset --subset_size 0.1 --width 16 --run_name "ct256_r18_n60_s010_w16" --gpu 6
+python main.py --config exps/caltech_r18.yaml --mislabel_ratio 0.6 --subset --subset_size 0.1 --width 128 --run_name "ct256_r18_n60_s010_w128" --gpu 6
+python main.py --config exps/caltech_r18.yaml --mislabel_ratio 0.6 --subset --subset_size 0.2 --width 16 --run_name "ct256_r18_n60_s020_w16" --gpu 6
+python main.py --config exps/caltech_r18.yaml --mislabel_ratio 0.6 --subset --subset_size 0.2 --width 128 --run_name "ct256_r18_n60_s020_w128" --gpu 6
+python main.py --config exps/caltech_r18.yaml --mislabel_ratio 0.6 --subset --subset_size 0.5 --width 16 --run_name "ct256_r18_n60_s050_w16" --gpu 6
+python main.py --config exps/caltech_r18.yaml --mislabel_ratio 0.6 --subset --subset_size 0.5 --width 128 --run_name "ct256_r18_n60_s050_w128" --gpu 6
+python main.py --config exps/caltech_r18.yaml --mislabel_ratio 0.6 --subset --subset_size 1.0 --width 16 --run_name "ct256_r18_n60_s100_w16" --gpu 6
+python main.py --config exps/caltech_r18.yaml --mislabel_ratio 0.6 --subset --subset_size 1.0 --width 128 --run_name "ct256_r18_n60_s100_w128" --gpu 6
