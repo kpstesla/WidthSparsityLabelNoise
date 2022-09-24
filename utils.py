@@ -121,10 +121,9 @@ def load_datasets(args):
 
     # train data augmentation on the fly
     caltech_train = transforms.Compose([
-        transforms.Resize(192),
+        transforms.Resize((144, 144)),
         transforms.RandomCrop((128, 128)),
         transforms.RandomHorizontalFlip(),
-        transforms.Lambda(enhance),
         transforms.ToTensor(),
         transforms.Normalize(
             mean=[0.485, 0.456, 0.406],
