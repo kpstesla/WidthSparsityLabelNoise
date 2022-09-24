@@ -1,19 +1,19 @@
 ---
 # optimizer options
-optimizer: "adam"
+optimizer: "sgd"
 batch_size: 64
-learning_rate: 0.01
+learning_rate: 0.1
 momentum: 0.9
-l2_reg: 0.00005
+l2_reg: 0.000001
 
 # lr scheduler options
 lr_gamma: 0.1
 lr_milestones:
-  - 40
-  - 60
+  - 80
+  - 120
 
 # training options
-epochs: 80
+epochs: 140
 eval_every: 2
 
 # model options
